@@ -2,13 +2,19 @@ package com.bressan.relatorio.realatorio;
 
 
 import com.bressan.relatorio.realatorio.domain.Report;
+import com.bressan.relatorio.realatorio.service.ClientService;
 import com.bressan.relatorio.realatorio.service.DataProcessorService;
+import com.bressan.relatorio.realatorio.service.SalesService;
+import com.bressan.relatorio.realatorio.service.SalesmanService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +24,24 @@ public class DataProcessorServiceTest {
 
     @InjectMocks
     private DataProcessorService service;
+
+    @Mock
+    private ClientService clientService;
+
+    @Mock
+    private SalesmanService salesmanService;
+
+    @Mock
+    private SalesService salesService;
+
+    @Before
+    public void setUp() {
+        when(clientService.getTotalClients(anyList())).thenReturn(2L);
+        when(salesmanService.getTotalSalesman(anyList())).thenReturn(2L);
+        when(salesService.getIdMostExpensiveSale(anyList())).thenReturn(10L);
+        when(salesmanService.getWorstSalesman(anyList())).thenReturn("Paulo");
+        when(clientService.getTotalClients(anyList())).thenReturn(2L);
+    }
 
     @Test
     public void whenCallProcessEntries_thenReturnReport() {
